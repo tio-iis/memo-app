@@ -10,6 +10,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
 
+  <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+
   <title>メモ帳アプリ</title>
 </head>
 
@@ -108,6 +110,8 @@
 </body>
 
 <script>
+
+
   const editModal = new bootstrap.Modal(document.getElementById('editModal'))
   const addModal = new bootstrap.Modal(document.getElementById('id-add-modal'))
   const titleInAddModal = document.getElementById("id-add-modal-title")
@@ -184,17 +188,10 @@
       return
     }
 
-    const now = new Date()
-
-    //あとでライブラリで実装する
-    var min = now.getMinutes()
-    if (min < 10) {
-      min = "0" + min
-    }
-
-    const createdAt = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate() + " " + now.getHours() + ":" + min + ":" + now.getSeconds()
+    const now = dayjs()
+    const createdAt = now.format("YYYY-MM-DD HH:mm:ss")
     const updatedAt = "なし"
-    const memoId = now.getTime()
+    const memoId = now.valueOf()
 
     const tr = document.createElement("tr")
     tr.setAttribute("id", memoId)
@@ -284,9 +281,7 @@
     //本文
     getIdBodyInlist(memoId).value = body
 
-    const now = new Date()
-    const updatedAt = now.getFullYear() + "-" + (now.getMonth() + 1) + "-" + now.getDate()
-    document.getElementById(createUpdatedAtId(memoId)).innerText = updatedAt
+    document.getElementById(createUpdatedAtId(memoId)).innerText = dayjs().format("YYYY-MM-DD HH:mm:ss")
 
     editModal.hide()
   })
